@@ -1,9 +1,12 @@
 import 'package:coh_fair_teams_frontend/model/matchupoption.dart';
+import 'package:coh_fair_teams_frontend/model/mvp.dart';
 import 'package:coh_fair_teams_frontend/services/fair_teams.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final helloWorldProvider = Provider<String>((_) => 'Hello world');
+
+final countdownProvider = StateProvider<int>((ref) => 5);
 
 final counterStateProvider = StateProvider<int>((ref) {
   return 0;
@@ -19,7 +22,34 @@ final matchUpProvider = FutureProvider<List<MatchUpOption>>((ref) async {
   return ref.read(apiProvider).getMatchUpTest();
 });
 
+
+final mvpProvider = FutureProvider<MVPData>((ref) async {
+  return ref.read(apiProvider).mvpPerMode();
+});
+
+final showMainPage = StateProvider<bool>((ref) {
+  return false;
+});
+
+final showMainPageProvider = FutureProvider<bool>(
+    (ref) async {
+      final mvpData = ref.listen(mvpProvider, (previous, next) {
+        next.whenData((value) {
+
+          Future.delayed(const Duration(seconds: 5), () {
+            ref.read(showMainPage.notifier).state = true;
+            return true;
+          });
+
+        });
+      });
+    return false;});
+
+
+
 final testProvider = StateProvider<bool>((ref) => false);
+
+
 final buttonWasPressed = StateProvider<bool>((ref) => false);
 
 

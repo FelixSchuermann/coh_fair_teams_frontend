@@ -1,31 +1,96 @@
+import 'package:coh_fair_teams_frontend/model/mvp.dart';
 import 'package:coh_fair_teams_frontend/provider_api.dart';
 import 'package:coh_fair_teams_frontend/services/fair_teams.dart';
+import 'package:coh_fair_teams_frontend/splashscreen.dart';
+import 'package:coh_fair_teams_frontend/widgets/mvppage.dart';
 import 'package:coh_fair_teams_frontend/widgets/selectplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:convert';
+
 import 'matchupviewer.dart';
 import 'model/matchupoption.dart';
+
 
 void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool showMain = ref.watch(showMainPage);
+    final main = ref.watch(showMainPageProvider);
+
     return MaterialApp(
       title: 'Faire Teams für kein Lutschjael',
       theme: ThemeData(
         primarySwatch: Colors.blueGrey,
       ),
-      home: const Homepage(),
+      home: showMain ? Homepage() : MVPPage()
     );
   }
 }
+
+
+
+
+// class Homepage extends ConsumerStatefulWidget {
+//   @override
+//   ConsumerState<Homepage> createState() => _HomepageState();
+// }
+//
+// class _HomepageState extends ConsumerState<Homepage> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     // 3. if needed, we can read the provider inside initState
+//     final helloWorld = ref.read(helloWorldProvider);
+//     print(helloWorld); // "Hello world"
+//   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   bool test = ref.watch(testProvider);
+  //   bool showMain = ref.watch(showMainPage);
+  //   if (showMain){
+  //     return
+  //   }
+  //
+  //   final _data2 = ref.watch(mvpProvider);
+  //   final splashfinished = ref.watch(splashScreenProvider);
+  //   return _data2.when(data: (_)=> Text("mvpdata"), error: (err, s) => Text(err.toString()), loading: () => const Center(
+  //       child: CircularProgressIndicator()));
+  //
+  //   return splashfinished.when(
+  //     loading: () => Container(child: Text("Bitte Knien und Demut zeigen vor euren MVP's"),),
+  //     error: (err, stack) => Text('Error: $err'),
+  //     data: (weather) => Scaffold(
+  //       appBar: AppBar(
+  //         title: Center(child: Text('COH3 FAIRE TEAMS',style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold) )),
+  //       ),
+  //       body: test == true ? AllOptionMatchUpViewer() : SelectPlayers(),
+  //       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+  //       floatingActionButton: const FloatingButton(),
+  //   ));
+  //
+  //   // if (splashfinished){
+  //   //   return Scaffold(
+  //   //     appBar: AppBar(
+  //   //       title: Center(child: Text('COH3 FAIRE TEAMS',style: TextStyle(fontSize: 45, fontWeight: FontWeight.bold) )),
+  //   //     ),
+  //   //     body: test == true ? AllOptionMatchUpViewer() : SelectPlayers(),
+  //   //     floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+  //   //     floatingActionButton: const FloatingButton(),);
+  //   // } else {
+  //   //   return ElevatedButton(child: Text("HIII"), onPressed: (){ref.read(splashScreenProvider.notifier).state = true;},);
+  //   // }
+  //   }
+  //
+  // }
+
 
 class Homepage extends ConsumerWidget {
   const Homepage({Key? key}) : super(key: key);
@@ -95,6 +160,8 @@ class AllOptionMatchUpViewer extends ConsumerWidget {
     final _data = ref.watch(matchUpProvider);
 
 
+
+
     return _data.when(
       data: (_data) {
         return SingleChildScrollView(
@@ -136,3 +203,5 @@ class MatchUpListView extends StatelessWidget {
     ]);
   }
 }
+
+
