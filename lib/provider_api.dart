@@ -36,7 +36,7 @@ final showMainPageProvider = FutureProvider<bool>(
       final mvpData = ref.listen(mvpProvider, (previous, next) {
         next.whenData((value) {
 
-          Future.delayed(const Duration(seconds: 5), () {
+          Future.delayed(const Duration(seconds: 6), () {
             ref.read(showMainPage.notifier).state = true;
             return true;
           });

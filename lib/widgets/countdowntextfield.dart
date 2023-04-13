@@ -18,7 +18,7 @@ class _LoadingBarExampleState extends State<LoadingBarExample>
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 6),
       vsync: this,
     );
 

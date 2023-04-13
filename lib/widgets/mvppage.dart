@@ -1,5 +1,6 @@
 import 'package:coh_fair_teams_frontend/model/mvp.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../provider_api.dart';
@@ -40,19 +41,23 @@ class MVPDetail extends ConsumerWidget {
       children: [
         const Center(
             child: Text(
-          "MVPs",
-          style: TextStyle(
-              fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black),
-          textAlign: TextAlign.center,
-        )),
+              "MVPs",
+              style: TextStyle(letterSpacing: 10,
+                  fontSize: 140,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black, fontFamily: "Orbitron"),
+              textAlign: TextAlign.center,
+            )),
         const Center(
             child: Text(
-          "Bitte Knien und Demut zeigen",
-          style: TextStyle(
-              fontSize: 20, fontStyle: FontStyle.italic, color: Colors.black),
-          textAlign: TextAlign.center,
-        )),
-        Divider(
+              "Bitte knien und Demut zeigen",
+              style: TextStyle(
+                  fontSize: 20,
+                  fontStyle: FontStyle.italic,
+                  color: Colors.black),
+              textAlign: TextAlign.center,
+            )),
+        Divider(thickness: 10,
           height: 100,
         ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -65,7 +70,8 @@ class MVPDetail extends ConsumerWidget {
           four_v_four,
         ]),
         const SizedBox(height: 30),
-        LoadingBarExample()],
+        LoadingBarExample()
+      ],
     );
   }
 }
@@ -81,12 +87,16 @@ class MvpColumn extends StatelessWidget {
     return Column(
       children: [
         Text(modeName,
-            style: TextStyle(fontSize: 25, color: Colors.deepOrange)),
+            style: TextStyle(fontSize: 25, color: Colors.red,decoration: TextDecoration.underline )),
         VerticalDivider(thickness: 10, color: Colors.black,),
         SizedBox(height: 10),
-        Text(modeData.player_name,style: TextStyle(fontSize: 35)),
+        Text(modeData.player_name, style: TextStyle(fontSize: 40, fontFamily: "Orbitron")),
         SizedBox(height: 20),
-        Image.network(modeData.avatar),
+        Container(
+            child: Image.network(modeData.avatar)).animate()
+            .fadeIn() // uses `Animate.defaultDuration`
+            .scale() // inherits duration from fadeIn
+            .move(delay: 300.ms, duration: 800.ms).boxShadow(delay: 200.milliseconds).elevation(delay: 500.milliseconds), // runs after the above w/new duration
         SizedBox(height: 10),
         Text("ELO: ${modeData.elo}",
             style: TextStyle(fontSize: 30, color: Colors.green)),
