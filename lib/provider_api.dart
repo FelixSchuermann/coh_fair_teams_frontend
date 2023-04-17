@@ -37,7 +37,8 @@ final showMainPageProvider = FutureProvider<bool>(
         next.whenData((value) {
 
           Future.delayed(const Duration(seconds: 6), () {
-            ref.read(showMainPage.notifier).state = true;
+            //ref.read(showMainPage.notifier).state = true;
+            ref.read(showButtonToEnterMainPageProvider.notifier).state = true;
             return true;
           });
 
@@ -45,7 +46,9 @@ final showMainPageProvider = FutureProvider<bool>(
       });
     return false;});
 
-
+final showButtonToEnterMainPageProvider = StateProvider<bool>((ref) {
+  return false;
+});
 
 final testProvider = StateProvider<bool>((ref) => false);
 

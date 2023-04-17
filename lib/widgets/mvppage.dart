@@ -11,6 +11,7 @@ class MVPPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mvps = ref.watch(mvpProvider);
 
+
     return mvps.when(
         loading: () => CircularProgressIndicator(),
         error: (err, stack) => Text('Error: $err'),
@@ -31,6 +32,8 @@ class MVPDetail extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final forward_button = ref.watch(showButtonToEnterMainPageProvider);
+
     final one_v_one = MvpColumn(mvpData.one_v_one, "1v1");
     final two_v_two = MvpColumn(mvpData.two_v_two, "2v2");
     final three_v_three = MvpColumn(mvpData.three_v_three, "3v3");
@@ -39,26 +42,30 @@ class MVPDetail extends ConsumerWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Center(
-            child: Text(
-              "MVPs",
-              style: TextStyle(letterSpacing: 10,
-                  fontSize: 140,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, fontFamily: "Orbitron"),
-              textAlign: TextAlign.center,
-            )),
-        const Center(
-            child: Text(
-              "Bitte knien und Demut zeigen",
-              style: TextStyle(
-                  fontSize: 20,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.black),
-              textAlign: TextAlign.center,
-            )),
-        Divider(thickness: 10,
-          height: 100,
+        Transform.translate(
+          offset: Offset(0, -100), // Move the Text widget up by 5 pixels
+          child: Text(
+          "MVPs",
+          style: TextStyle(letterSpacing: 10,
+              fontSize: 140,
+              fontWeight: FontWeight.bold,
+              color: Colors.black, fontFamily: "Orbitron"),
+          textAlign: TextAlign.center,
+        ),
+        ),
+        Transform.translate(
+          offset: Offset(0, -80), // Move the Text widget up by 5 pixels
+          child: Text(
+            "Bitte knien und Demut zeigen",
+            style: TextStyle(
+                fontSize: 20,
+                fontStyle: FontStyle.italic,
+                color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        Divider(thickness: 5,
+          height: 20,
         ),
         Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
           one_v_one,
@@ -69,8 +76,34 @@ class MVPDetail extends ConsumerWidget {
           vertdivider,
           four_v_four,
         ]),
+        Divider(thickness: 5,
+          height: 20,
+        ),
+        const SizedBox(height: 20),
+        LoadingBarExample(),
         const SizedBox(height: 30),
-        LoadingBarExample()
+        forward_button ? Container(alignment: Alignment.center,
+    width: 200,
+          child: RawMaterialButton(
+            onPressed: () {
+              ref.read(showMainPage.notifier).state = true;
+            },
+            elevation: 6.0,
+            fillColor: Colors.deepOrange,
+            child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Faire Teams Builder"),
+
+                ],
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ) : Text("")
       ],
     );
   }
