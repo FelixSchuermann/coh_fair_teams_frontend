@@ -36,6 +36,8 @@ dependencies:
   flutter_splash_screen: ^1.0.0
   flutter_animate: ^4.1.1+1
   google_fonts: ^4.0.3
+  intl: ^0.18.0
+  webview_flutter_web: ^0.2.2+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -64,6 +66,10 @@ flutter:
   uses-material-design: true
   assets:
     - google_fonts/
+    - assets/dak.png
+    - assets/british.png
+    - assets/american.png
+    - assets/german.png
 
   fonts:
     - family: Orbitron

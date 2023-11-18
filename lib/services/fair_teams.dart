@@ -2,10 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:coh_fair_teams_frontend/model/mvp.dart';
+//import 'package:coh_fair_teams_frontend/model/mvp.dart';
+import 'package:coh_fair_teams_frontend/model/mvp_combined.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 //import 'package:http/http.dart';
 
+import '../model/historic_elo.dart';
 import '../model/matchupoption.dart';
 
 class ApiService {
@@ -131,6 +133,87 @@ class ApiService {
       }
     }
      catch (e) {
+      // Handle DioError exceptions and other exceptions if needed
+      throw Exception(e.toString());
+    }
+  }
+
+  Future<MVPData> secondmvpPerMode() async {
+    Dio dio = Dio()
+      ..options = BaseOptions(
+        connectTimeout: 30000, // Adjust the timeout value as needed (in milliseconds)
+        receiveTimeout: 30000, // Adjust the timeout value as needed (in milliseconds)
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        },
+      );
+
+
+
+    String apiUrl = "https://www.volle-power-mc.de:8000";
+    if (kReleaseMode) {
+      apiUrl = 'https://www.volle-power-mc.de:8000';
+    } else if (kDebugMode) {
+      apiUrl = 'http://localhost:8000';
+    }
+
+    try {
+
+      Response response = await dio.get(
+        "${apiUrl}/second_mvp_per_mode/",
+      );
+
+      if (response.statusCode == 200) {
+        return MVPData.fromJson(jsonDecode(jsonEncode(response.data)));
+      } else {
+        throw Exception('Failed to load MVP data');
+      }
+    }
+    catch (e) {
+      // Handle DioError exceptions and other exceptions if needed
+      throw Exception(e.toString());
+    }
+  }
+
+
+  Future<HistoricElo> historicElo(modeName) async {
+    Dio dio = Dio()
+      ..options = BaseOptions(
+        connectTimeout: 30000, // Adjust the timeout value as needed (in milliseconds)
+        receiveTimeout: 30000, // Adjust the timeout value as needed (in milliseconds)
+        headers: {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Credentials": "true",
+          "Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,locale",
+          "Access-Control-Allow-Methods": "POST, OPTIONS"
+        },
+      );
+
+
+
+    String apiUrl = "https://www.volle-power-mc.de:8000";
+    if (kReleaseMode) {
+      apiUrl = 'https://www.volle-power-mc.de:8000';
+    } else if (kDebugMode) {
+      apiUrl = 'http://localhost:8000';
+    }
+
+    try {
+
+      Response response = await dio.get(
+        "${apiUrl}/historic_elo_per_mode/${modeName}",
+      );
+
+      if (response.statusCode == 200) {
+        return HistoricElo.fromJson(jsonDecode(jsonEncode(response.data)));
+      } else {
+        throw Exception('Failed to load historic elos');
+      }
+    }
+    catch (e) {
       // Handle DioError exceptions and other exceptions if needed
       throw Exception(e.toString());
     }

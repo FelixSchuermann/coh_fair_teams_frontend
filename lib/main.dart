@@ -2,16 +2,22 @@ import 'package:coh_fair_teams_frontend/model/mvp.dart';
 import 'package:coh_fair_teams_frontend/provider_api.dart';
 import 'package:coh_fair_teams_frontend/services/fair_teams.dart';
 import 'package:coh_fair_teams_frontend/splashscreen.dart';
+import 'package:coh_fair_teams_frontend/widgets/eloplotly.dart';
+import 'package:coh_fair_teams_frontend/widgets/historicelopage.dart';
 import 'package:coh_fair_teams_frontend/widgets/mvppage.dart';
 import 'package:coh_fair_teams_frontend/widgets/selectplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
+import 'dart:ui' as ui;
 import 'matchupviewer.dart';
 import 'model/matchupoption.dart';
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 
 void main() {
+  //ui.platformViewRegistry.registerViewFactory('<iframeElement>', createIframeElement);
+  WebViewPlatform.instance = WebWebViewPlatform();
   runApp(ProviderScope(child: MyApp()));
 }
 
@@ -26,10 +32,13 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp(
       title: 'Faire Teams für kein Lutschjael',
-      theme: ThemeData(
-        primarySwatch: Colors.blueGrey,
-      ),
+      // theme: ThemeData(
+      //   primarySwatch: Colors.blueGrey,
+      //
+      // ),
+        theme: new ThemeData(scaffoldBackgroundColor: Color(0xFFFFFFFF), primarySwatch: Colors.blueGrey),
       home: showMain ? Homepage() : MVPPage()
+      //home: showMain ? Homepage() : HistoricEloPage()
     );
   }
 }

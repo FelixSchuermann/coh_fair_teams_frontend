@@ -1,22 +1,23 @@
 import 'dart:convert';
 
 class MVPData {
-  final OneVOne one_v_one;
-  final TwoVTwo two_v_two;
-  final ThreeVThree three_v_three;
-  final FourVFour four_v_four;
+  final Player one_v_one;
+  final Player two_v_two;
+  final Player three_v_three;
+  final Player four_v_four;
 
   MVPData({required this.one_v_one, required this.two_v_two, required this.three_v_three, required this.four_v_four});
 
   factory MVPData.fromJson(Map<String, dynamic> json) {
     return MVPData(
-      one_v_one: OneVOne.fromJson(json['one_v_one']),
-      two_v_two: TwoVTwo.fromJson(json['two_v_two']),
-      three_v_three: ThreeVThree.fromJson(json['three_v_three']),
-      four_v_four: FourVFour.fromJson(json['four_v_four']),
+      one_v_one: Player.oneVOneFromJson(json['one_v_one']),
+      two_v_two: Player.twoVTwoFromJson(json['two_v_two']),
+      three_v_three: Player.threeVThreeFromJson(json['three_v_three']),
+      four_v_four: Player.fourVFourFromJson(json['four_v_four']),
     );
   }
 }
+
 
 class Player {
   final String player_name;
@@ -56,6 +57,22 @@ class Player {
       rank: json['rank'],
       last_match_date: json['last_match_date'],
     );
+  }
+
+  factory Player.oneVOneFromJson(Map<String, dynamic> json) {
+    return Player.fromJson(json);
+  }
+
+  factory Player.twoVTwoFromJson(Map<String, dynamic> json) {
+    return Player.fromJson(json);
+  }
+
+  factory Player.threeVThreeFromJson(Map<String, dynamic> json) {
+    return Player.fromJson(json);
+  }
+
+  factory Player.fourVFourFromJson(Map<String, dynamic> json) {
+    return Player.fromJson(json);
   }
 }
 
